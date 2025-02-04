@@ -7,6 +7,7 @@ def check_status_code(status_code, expected_status_code):
     assert status_code == expected_status_code, f'Ошибка! Статус-код {status_code}, неверный'
     print(f'Успешно! Статус код = {status_code}')
 
+
 def check_body_value(response, field_name, expected_value):
     '''Функция для проверки наличия и  значения полей в ответе запроса'''
 
@@ -54,10 +55,9 @@ try:
     check_status_code(response_post.status_code, 200)
 
     # проверка наличия полей и их значений в теле ответа
-    check_body_value(response_post, 'id', id)
-    check_body_value(response_post, 'name', name)
-    check_body_value(response_post, 'photoUrls', ['string'])
-    print('-------Запрос выполнен успешно-------')
+    expected_fields = {'id': id, 'name': name, 'photoUrls': ['string']}
+    for field_name, expected_value in expected_fields.items():
+        check_body_value(response_post, field_name, expected_value)
 
 except requests.exceptions.RequestException as err:
     print(f'Ошибка запроса: {err}')
